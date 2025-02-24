@@ -1,0 +1,22 @@
+format_version: 10
+pipelines:
+  Expense-tf-apply:
+    group: Terraform
+    materials:
+      git-b844969:
+        git: https://github.com/DevOps-iteration2/expense-terraform.git
+        shallow_clone: false
+        auto_update: true
+        branch: main
+    stages:
+      - DEV:
+          fetch_materials: true
+          environment_variables:
+            env : dev
+          approval:
+            type: manual
+          jobs:
+            terraform-apply:
+              tasks:
+                - exec: {command: "terraform", arguments: [ "init","-backend-config=env-dev/state.tfvars" ], run_if: passed}
+                - exec: {command: "terraform", arguments: ["apply", "-var-file=env-dev/main.tfvars"], run_if: passed }
