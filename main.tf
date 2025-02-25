@@ -1,0 +1,29 @@
+module "frontend" {
+  source         = "./modules/app"
+  env            = var.env
+  instance_type  = var.instance_type
+  zone_id        = var.zone_id
+  component      = "frontend"
+  ssh_user       = var.ssh_user
+  ssh_pass       = var.ssh_pass
+}
+
+module "backend" {
+  source         = "./modules/app"
+  env            = var.env
+  instance_type  = var.instance_type
+  zone_id        = var.zone_id
+  component      = "backend"
+  ssh_user       = var.ssh_user
+  ssh_pass       = var.ssh_pass
+}
+
+module "mysql" {
+  source         = "./modules/mysql"
+  env            = var.env
+  instance_type  = var.instance_type
+  zone_id        = var.zone_id
+  component      = "mysql"
+  ssh_user       = var.ssh_user
+  ssh_pass       = var.ssh_pass
+}
