@@ -22,10 +22,11 @@ module "backend" {
 
 module "mysql" {
   source         = "./modules/mysql"
+
   env            = var.env
+  component      = "mysql"
   instance_type  = var.instance_type
   zone_id        = var.zone_id
-  component      = "mysql"
   ssh_user       = var.ssh_user
   ssh_pass       = var.ssh_pass
 }
