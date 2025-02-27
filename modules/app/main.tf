@@ -4,6 +4,7 @@ resource "aws_instance" "instance" {
   vpc_security_group_ids = [data.aws_security_group.sg.id]
   tags   = {
     Name = var.component
+    monitor = "yes"
   }
 }
 resource "null_resource" "ansible" {
