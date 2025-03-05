@@ -7,3 +7,7 @@ data "aws_ami" "ami" {
 data "aws_security_group" "sg" {
   name = "allow-all"
 }
+
+data "vault_generic_secret" "ssh" {
+  path = "common/ssh"
+}

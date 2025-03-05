@@ -6,8 +6,6 @@ module "frontend" {
   instance_type  = var.instance_type
   zone_id        = var.zone_id
   component      = "frontend"
-  ssh_user       = var.ssh_user
-  ssh_pass       = var.ssh_pass
 }
 
 module "backend" {
@@ -18,8 +16,6 @@ module "backend" {
   instance_type  = var.instance_type
   zone_id        = var.zone_id
   component      = "backend"
-  ssh_user       = var.ssh_user
-  ssh_pass       = var.ssh_pass
 }
 
 module "mysql" {
@@ -29,6 +25,4 @@ module "mysql" {
   component      = "mysql"
   instance_type  = var.instance_type
   zone_id        = var.zone_id
-  ssh_user       = var.ssh_user
-  ssh_pass       = var.ssh_pass
 }
