@@ -19,13 +19,14 @@ resource "null_resource" "ansible" {
 
     inline = [
     "sudo pip3.11 install ansible",
-    "ansible-pull -i localhost, -U https://github.com/DevOps-Iteration2/expense-ansible expense.yml -e env=${var.env} -e role_name=${var.component}" # Shell commands so utilizing ${var.env}
+    "ansible-pull -i localhost, -U https://github.com/DevOps-Iteration2/expense-ansible get-secrets.yml -e env=${var.env} -e role_name=${var.component} -e vault_token=${var.vault_token}",
+    "ansible-pull -i localhost, -U https://github.com/DevOps-Iteration2/expense-ansible expense.yml -e env=${var.env} -e role_name=${var.component} -e @common.json -e @app.json" # Shell commands so utilizing ${var.env}
     ]
   }
 }
 
 resource "aws_route53_record" "record" {
-  name    = "${var.component}-${var.env}" # For concatenation of strings we use ${var.component}
+  name    = "${var.component}-${var.env}" # For concatenation of strings we use ${var.component} if not we can directly var.env
   type    = "A"
   zone_id = var.zone_id
   records = [aws_instance.instance.private_ip]
