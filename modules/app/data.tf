@@ -9,5 +9,5 @@ data "aws_security_group" "sg" {
 }
 
 data "vault_generic_secret" "ssh" {
-  path = "common/ssh"
+  path = "common/common"
 }
