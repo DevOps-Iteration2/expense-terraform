@@ -29,3 +29,14 @@ module "mysql" {
   zone_id        = var.zone_id
   vault_token    = var.vault_token
 }
+
+module "vpc" {
+  source = "./modules/vpc"
+
+  env =  var.env
+  vpc_cidr_block = var.vpc_cidr_block
+  subnet_cidr_block = var.subnet_cidr_block
+  default_vpc_id = var.default_vpc_id
+  default_vpc_cidr = var.default_vpc_cidr
+  default_route_table_id = var.default_route_table_id
+}
