@@ -1,13 +1,41 @@
+resource "aws_security_group" "main" {
+  name        = "${var.component}-${var.env}-sg"
+  description = "${var.component}-${var.env}-sg"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    protocol  = -1
+    from_port = 0
+    to_port   = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1" # All traffic
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+
+  tags = {
+    Name = "${var.component}-${var.env}-sg"
+  }
+}
+
 resource "aws_instance" "instance" {
   ami                    = data.aws_ami.ami.image_id
   instance_type          = var.instance_type
-  vpc_security_group_ids = [data.aws_security_group.sg.id]
+  subnet_id              = var.subnets[0]
+  vpc_security_group_ids = [aws_security_group.main.id]
+
   tags      = {
     Name    = var.component
     monitor = "yes"
     env     = var.env
   }
 }
+
 resource "null_resource" "ansible" {
   provisioner "remote-exec" {
     connection {

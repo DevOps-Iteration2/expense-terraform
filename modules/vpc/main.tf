@@ -35,6 +35,39 @@ resource "aws_route" "default-vpc" {
   destination_cidr_block    = var.vpc_cidr_block
 }
 
+resource "aws_subnet" "frontend" {
+  count             = length(var.frontend_subnets)
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.frontend_subnets[count.index]
+  availability_zone = var.availability_zones[count.index]
+
+  tags = {
+    Name = "${var.env}-frontend-subnet-${count.index+1}"
+  }
+}
+
+resource "aws_subnet" "backend" {
+  count             = length(var.backend_subnets)
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.backend_subnets[count.index]
+  availability_zone = var.availability_zones[count.index]
+
+  tags = {
+    Name = "${var.env}-backend-subnet-${count.index+1}"
+  }
+}
+
+resource "aws_subnet" "db" {
+  count             = length(var.db_subnets)
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.db_subnets[count.index]
+  availability_zone = var.availability_zones[count.index]
+
+  tags = {
+    Name = "${var.env}-db-subnet-${count.index+1}"
+  }
+}
+
 resource "aws_route_table" "main" {
   vpc_id = aws_vpc.main.id
   vpc_peering_connection_id = ""
