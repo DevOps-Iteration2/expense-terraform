@@ -45,7 +45,7 @@ resource "aws_subnet" "frontend" {
     Name = "${var.env}-frontend-subnet-${count.index+1}"
   }
 }
-
+#Visual Subnet Calculator
 resource "aws_subnet" "backend" {
   count             = length(var.backend_subnets)
   vpc_id            = aws_vpc.main.id
