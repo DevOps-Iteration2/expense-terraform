@@ -41,7 +41,7 @@ module "vpc" {
 
   env                     = var.env
   vpc_cidr_block          = var.vpc_cidr_block
-  subnet_cidr_block       = var.subnet_cidr_block
+ # subnet_cidr_block       = var.subnet_cidr_block
   default_vpc_id          = var.default_vpc_id
   default_vpc_cidr        = var.default_vpc_cidr
   default_route_table_id  = var.default_route_table_id
@@ -49,4 +49,5 @@ module "vpc" {
   backend_subnets         = var.backend_subnets
   db_subnets              = var.db_subnets
   availability_zones      = var.availability_zones
+  public_subnets          = var.public_subnets
 }
