@@ -29,7 +29,7 @@ resource "aws_subnet" "public" {
   availability_zone = var.availability_zones[count.index]
 
   tags = {
-    Name = "${var.env}-public-subnet-${count.index+1}"
+    Name = "${var.env}-public-subnet-${count.index + 1}"
   }
 }
 
@@ -47,7 +47,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "${var.env}-public-rt-${count.index+1}"
+    Name = "${var.env}-public-rt-${count.index + 1}"
   }
 }
 
@@ -62,7 +62,7 @@ resource "aws_nat_gateway" "ngw" {
   subnet_id     = aws_subnet.public[count.index].id
 
   tags = {
-    Name = "${var.env}-ngw-${count.index+1}"
+    Name = "${var.env}-ngw-${count.index + 1}"
   }
 }
 
@@ -79,7 +79,7 @@ resource "aws_subnet" "frontend" {
   availability_zone = var.availability_zones[count.index]
 
   tags = {
-    Name = "${var.env}-frontend-subnet-${count.index+1}"
+    Name = "${var.env}-frontend-subnet-${count.index + 1}"
   }
 }
 
@@ -99,7 +99,7 @@ resource "aws_route_table" "frontend" {
   }
 
   tags = {
-    Name = "${var.env}-frontend-rt-${count.index+1}"
+    Name = "${var.env}-frontend-rt-${count.index + 1}"
   }
 }
 resource "aws_route_table_association" "frontend" {
@@ -116,7 +116,7 @@ resource "aws_subnet" "backend" {
   availability_zone = var.availability_zones[count.index]
 
   tags = {
-    Name = "${var.env}-backend-subnet-${count.index+1}"
+    Name = "${var.env}-backend-subnet-${count.index + 1}"
   }
 }
 
@@ -148,7 +148,7 @@ resource "aws_subnet" "db" {
   availability_zone = var.availability_zones[count.index]
 
   tags = {
-    Name = "${var.env}-db-subnet-${count.index+1}"
+    Name = "${var.env}-db-subnet-${count.index + 1}"
   }
 }
 
