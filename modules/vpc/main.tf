@@ -34,6 +34,7 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_route_table" "public" {
+  count  = length(var.public_subnets)
   vpc_id = aws_vpc.main.id
 
   route {
