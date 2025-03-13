@@ -59,7 +59,7 @@ resource "aws_eip" "ngw" {
 
 resource "aws_nat_gateway" "ngw" {
   count         = length(var.public_subnets)
-  allocation_id = aws_eip.ngw.id
+  allocation_id = aws_eip.ngw[count.index].id
   subnet_id     = aws_subnet.public[count.index].id
 
   tags = {
