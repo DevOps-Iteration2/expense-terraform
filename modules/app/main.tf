@@ -34,6 +34,11 @@ resource "aws_instance" "instance" {
     monitor = "yes"
     env     = var.env
   }
+  lifecycle {
+    ignore_changes = [
+    ami,
+    ]
+  }
 }
 
 resource "null_resource" "ansible" {
@@ -60,10 +65,60 @@ resource "null_resource" "ansible" {
   }
 }
 
-resource "aws_route53_record" "record" {
+resource "aws_route53_record" "server" {
+  count   = var.lb_needed ? 0 : 1
   name    = "${var.component}-${var.env}" # For concatenation of strings we use ${var.component} if not we can directly var.env
   type    = "A"
   zone_id = var.zone_id
   records = [aws_instance.instance.private_ip]
   ttl     = 30
+}
+
+resource "aws_route53_record" "load_balancer" {
+  count   = var.lb_needed ? 1:0
+  name    = "${var.component}-${var.env}" # For concatenation of strings we use ${var.component} if not we can directly var.env
+  type    = "CNAME"
+  zone_id = var.zone_id
+  records = [aws_lb.main[0].dns_name]
+  ttl     = 30
+}
+
+resource "aws_lb" "main" {
+  count              = var.lb_needed ? 1 : 0
+  name               = "${var.env}-${var.component}-lb"
+  internal           = var.lb_type == "public"? false : true
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.main.id]
+  subnets            = var.lb_subnets
+}
+
+resource "aws_lb_target_group" "main" {
+  count    = var.lb_needed ? 1 : 0
+  name     = "${var.env}-${var.component}-tg"
+  port     = var.app_port # port number applies to all the targets in the group that receives traffic from lb
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+
+  health_check {
+    path = "/health"
+  }
+}
+
+resource "aws_lb_target_group_attachment" "main" {
+  count            = var.lb_needed ? 1 : 0
+  target_group_arn = aws_lb_target_group.main[0].arn
+  target_id        = aws_instance.instance.id
+  port             = var.app_port  # here we can change the port that the traffic can be received
+}
+
+resource "aws_lb_listener" "front_end" {
+  count             = var.lb_needed ? 1 : 0
+  load_balancer_arn = aws_lb.main[0].arn
+  port              = var.app_port
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.main[0].arn
+  }
 }
