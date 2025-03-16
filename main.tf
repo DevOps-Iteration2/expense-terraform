@@ -22,7 +22,7 @@ module "frontend" {
 }
 
 module "backend" {
-  depends_on     = [module.mysql]
+  depends_on     = [module.rds]
 
   source                  = "./modules/app"
   env                     = var.env
@@ -44,20 +44,37 @@ module "backend" {
   lb_ports                = { http : 8080 }
 }
 
-module "mysql" {
-  source         = "./modules/app"
+#module "mysql" {
+ # source         = "./modules/app"
 
+  #env                     = var.env
+  #component               = "mysql"
+ # instance_type           = var.instance_type
+  #zone_id                 = var.zone_id
+ # vault_token             = var.vault_token
+ # subnets                 = module.vpc.db_subnets
+ # vpc_id                  = module.vpc.vpc_id
+ # app_port                = 3306
+ # bastion_nodes           = var.bastion_nodes
+ # prometheus_nodes        = var.prometheus_nodes
+ # server_app_port_sg_cidr = var.backend_subnets
+#}
+
+module "rds" {
+  source = "./modules/rds"
+
+  allocated_storage       = 20
+  component               = "rds"
+  engine                  = "mysql"
+  engine_version          = "8.0.36"
   env                     = var.env
-  component               = "mysql"
-  instance_type           = var.instance_type
-  zone_id                 = var.zone_id
-  vault_token             = var.vault_token
-  subnets                 = module.vpc.db_subnets
-  vpc_id                  = module.vpc.vpc_id
-  app_port                = 3306
-  bastion_nodes           = var.bastion_nodes
-  prometheus_nodes        = var.prometheus_nodes
+  family                  = "mysql8.0"
+  instance_class          = "db.t3.micro"
   server_app_port_sg_cidr = var.backend_subnets
+  skip_final_snapshot     = true
+  storage_type            = "gp3"
+  subnet_ids              = module.vpc.db_subnets
+  vpc_id                  = module.vpc.vpc_id
 }
 
 module "vpc" {
