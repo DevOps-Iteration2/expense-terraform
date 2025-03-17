@@ -86,7 +86,6 @@ resource "aws_subnet" "frontend" {
   }
 }
 
-
 resource "aws_route_table" "frontend" {
   count  = length(var.frontend_subnets)
   vpc_id = aws_vpc.main.id
