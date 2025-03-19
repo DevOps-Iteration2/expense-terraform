@@ -3,7 +3,6 @@ variable "instance_type" {}
 variable "component" {}
 variable "app_port" {}
 variable "vpc_id" {}
-variable "lb_needed" {}
 variable "lb_type" {}
 variable "lb_subnets" {}
 variable "certificate_arn" {}

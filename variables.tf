@@ -15,5 +15,7 @@ variable "public_subnets" {}
 variable "bastion_nodes" {}
 variable "prometheus_nodes" {}
 variable "certificate_arn" {}
-variable "lb_ports" {}
 variable "kms_key_id" {}
+variable "max_capacity" {}
+variable "min_capacity" {}
+
