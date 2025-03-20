@@ -16,3 +16,4 @@ variable "bastion_nodes" {}
 variable "subnets" {}
 variable "vault_token" {}
 variable "zone_id" {}
+variable "kms_key_id" {}
