@@ -16,7 +16,7 @@ availability_zones     = ["us-east-1a", "us-east-1b"]
 bastion_nodes          = ["172.31.40.28/32"]
 prometheus_nodes       = ["172.31.35.9/32"]
 certificate_arn        = "arn:aws:acm:us-east-1:980921750868:certificate/b42cbd3f-beb1-4f78-a551-cab88bf12d38"
-kms_key_id             = "57c0e30a-e947-400e-ac9e-5f308ec04b31"
+kms_key_id             = "arn:aws:kms:us-east-1:980921750868:key/57c0e30a-e947-400e-ac9e-5f308ec04b31"
 
 # ASG
 max_capacity = 5
