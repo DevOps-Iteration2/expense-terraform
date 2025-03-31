@@ -65,6 +65,11 @@ resource "aws_autoscaling_group" "main" {
     value               = "${var.component}-${var.env}"
     propagate_at_launch = true
   }
+  tag {
+    key                 = "monitor"
+    value               = "yes"
+    propagate_at_launch = true
+  }
 }
 
 resource "aws_autoscaling_policy" "main" {
